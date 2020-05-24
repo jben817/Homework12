@@ -100,10 +100,10 @@ function addDepartment() {
     })
     .then(function(answer) {
       console.log(answer.addDepart);
-       connection.query("INSERT INTO department (name) VALUES (?)", {addDepart:answer.addDepart}, function(err, res) {
+       connection.query("INSERT INTO employee_trackerdb.department (name) VALUES (?)", {addDepart:answer.addDepart}, function(err, res) {
         if(err) throw err;
         console.table(res);
-        runSearch();
+        trackEmployees();
       });
     });
 }
@@ -120,7 +120,7 @@ function addEmployee() {
        connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?)", {addEmp:answer.addEmp}, function(err, res) {
         if(err) throw err;
         console.table(res);
-        runSearch();
+        trackEmployees();
       });
     });
 }
@@ -133,10 +133,29 @@ function addRole() {
     })
     .then(function(answer) {
       console.log(answer.addRo);
-       connection.query("INSERT INTO role (title, salary, department_id) VALUES (?)", {addRo:answer.addRo}, function(err, res) {
+       connection.query("INSERT INTO employee_trackerdb.role (title, salary, department_id) VALUES (?)", {addRo:answer.addRo}, function(err, res) {
         if(err) throw err;
         console.table(res);
-        runSearch();
+        trackEmployees();
       });
     });
 }
+
+//  Need  to join the tables and update the roles wasn't sure how to accomplish this. 
+
+// function updateEmployee() {
+//   inquirer
+//     .prompt({
+//       name: "updateRole",
+//       type: "input",
+//       // message: " unsure"
+//     })
+//     .then(function(answer) {
+//       console.log(answer.updateRole);
+//       //  connection.query("UPDATE employee_trackerdb.role SET () WHERE (?)", {updateRole:answer.updateRole}, function(err, res) {
+//         if(err) throw err;
+//         console.table(res);
+//         trackEmployees();
+//       });
+//     });
+// }
