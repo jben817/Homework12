@@ -108,3 +108,35 @@ function addDepartment() {
     });
 }
 
+function addEmployee() {
+  inquirer
+    .prompt({
+      name: "addEmp",
+      type: "input",
+      message: "Please add first_name, last_name, role_id, manager_id separated by commas"
+    })
+    .then(function(answer) {
+      console.log(answer.addEmp);
+       connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?)", {addEmp:answer.addEmp}, function(err, res) {
+        if(err) throw err;
+        console.table(res);
+        runSearch();
+      });
+    });
+}
+function addRole() {
+  inquirer
+    .prompt({
+      name: "addRo",
+      type: "input",
+      message: "Please add title, salary, department_id separated by commas"
+    })
+    .then(function(answer) {
+      console.log(answer.addRo);
+       connection.query("INSERT INTO role (title, salary, department_id) VALUES (?)", {addRo:answer.addRo}, function(err, res) {
+        if(err) throw err;
+        console.table(res);
+        runSearch();
+      });
+    });
+}
