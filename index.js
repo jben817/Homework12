@@ -28,7 +28,8 @@ function trackEmployees() {
         "Add Department",
         "Add Role",
         "Add Employee",
-        "Update Employee Role"
+        "Update Employee Role",
+        "Exit"
       ]
     })
     .then(function (answer) {
@@ -65,28 +66,45 @@ function trackEmployees() {
 }
 
 function viewEmpolyee() {
-  var query = "SELECT * FROM employee_trackerdb.employee";
-  connection.query(query, function(err, res) {
+  var queryEm = "SELECT * FROM employee_trackerdb.employee";
+  connection.query(queryEm, function(err, res) {
     if(err) throw err;
-    console.log(res);
+    console.table(res);
     trackEmployees();
   });
 }
 
 function viewDepartment() {
-  var query = "SELECT * FROM employee_trackerdb.department";
-  connection.query(query, function(err, res) {
+  var queryDe = "SELECT * FROM employee_trackerdb.department";
+  connection.query(queryDe, function(err, res) {
     if(err) throw err;
-    console.log(res);
+    console.table(res);
     trackEmployees();
   });
 }
 function viewRoles() {
-  var query = "SELECT * FROM employee_trackerdb.role;";
-  connection.query(query, function(err, res) {
+  var queryRo = "SELECT * FROM employee_trackerdb.role;";
+  connection.query(queryRo, function(err, res) {
     if(err) throw err;
-    console.log(res);
+    console.table(res);
     trackEmployees();
   });
+}
+
+function addDepartment() {
+  inquirer
+    .prompt({
+      name: "addDepart",
+      type: "input",
+      message: "Please add Department"
+    })
+    .then(function(answer) {
+      console.log(answer.addDepart);
+       connection.query("INSERT INTO department (name) VALUES (?)", {addDepart:answer.addDepart}, function(err, res) {
+        if(err) throw err;
+        console.table(res);
+        runSearch();
+      });
+    });
 }
 
