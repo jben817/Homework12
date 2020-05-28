@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
   database: "employee_trackerDB"
 });
 
-connection.connect(function(err) {
+connection.connect(function (err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
   trackEmployees();
@@ -35,7 +35,7 @@ function trackEmployees() {
     .then(function (answer) {
       switch (answer.action) {
         case "View Employees":
-          viewEmpolyee() 
+          viewEmpolyee()
           break;
 
         case "View Departments":
@@ -67,8 +67,8 @@ function trackEmployees() {
 
 function viewEmpolyee() {
   var queryEm = "SELECT * FROM employee_trackerdb.employee";
-  connection.query(queryEm, function(err, res) {
-    if(err) throw err;
+  connection.query(queryEm, function (err, res) {
+    if (err) throw err;
     console.table(res);
     trackEmployees();
   });
@@ -76,16 +76,16 @@ function viewEmpolyee() {
 
 function viewDepartment() {
   var queryDe = "SELECT * FROM employee_trackerdb.department";
-  connection.query(queryDe, function(err, res) {
-    if(err) throw err;
+  connection.query(queryDe, function (err, res) {
+    if (err) throw err;
     console.table(res);
     trackEmployees();
   });
 }
 function viewRoles() {
   var queryRo = "SELECT * FROM employee_trackerdb.role;";
-  connection.query(queryRo, function(err, res) {
-    if(err) throw err;
+  connection.query(queryRo, function (err, res) {
+    if (err) throw err;
     console.table(res);
     trackEmployees();
   });
@@ -98,10 +98,10 @@ function addDepartment() {
       type: "input",
       message: "Please add Department"
     })
-    .then(function(answer) {
+    .then(function (answer) {
       console.log(answer.addDepart);
-       connection.query("INSERT INTO employee_trackerdb.department (name) VALUES (?)", {addDepart:answer.addDepart}, function(err, res) {
-        if(err) throw err;
+      connection.query("INSERT INTO employee_trackerdb.department (name) VALUES (?)", answer.addDepart, function (err, res) {
+        if (err) throw err;
         console.table(res);
         trackEmployees();
       });
@@ -111,51 +111,97 @@ function addDepartment() {
 function addEmployee() {
   inquirer
     .prompt({
-      name: "addEmp",
+      name: "addFirst",
       type: "input",
-      message: "Please add first_name, last_name, role_id, manager_id separated by commas"
-    })
-    .then(function(answer) {
-      console.log(answer.addEmp);
-       connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?)", {addEmp:answer.addEmp}, function(err, res) {
-        if(err) throw err;
-        console.table(res);
-        trackEmployees();
-      });
+      message: "Please add Employee first_name"
+    },
+      {
+        name: "addLast",
+        type: "input",
+        message: "Please add Employee last_name"
+      },
+      {
+        name: "addRoleId",
+        type: "input",
+        message: "Please add Employee role_id"
+      },
+      {
+        name: "addManager",
+        type: "input",
+        message: "Please add Employee manager_id"
+      })
+    .then(function (answer) {
+      connection.query("INSERT INTO employee SET (?)",
+        {
+          first_name: answer.addFirst,
+          last_name: answer.addLast,
+          role_id: answer.addRoleId,
+          manager_id: answeer.addManager
+        },
+        function (err, res) {
+          if (err) throw err;
+          console.table(res);
+          trackEmployees();
+        });
     });
 }
 function addRole() {
   inquirer
     .prompt({
-      name: "addRo",
+      name: "addTitle",
       type: "input",
-      message: "Please add title, salary, department_id separated by commas"
+      message: "Please add title"
+    },
+      {
+        name: "addSalary",
+        type: "input",
+        message: "Please add salary"
+      },
+      {
+        name: "addDepartmentId",
+        type: "input",
+        message: "Please add department_id"
+      })
+    .then(function (answer) {
+      connection.query("INSERT INTO employee_trackerdb.role SET (?)",
+        {
+          title: answer.addTitle,
+          salary: answer.addSalary,
+          department_id: answer.addDepartmentId
+        },
+        function (err, res) {
+          if (err) throw err;
+          console.table(res);
+          trackEmployees();
+        });
+    });
+}
+
+function updateEmployee() {
+  inquirer
+    .prompt({
+      name: "changeTitle",
+      type: "input",
+      message: "change employee salary"
+    },
+    {
+      name: "changeSalary",
+      type: "input",
+      message: "change employee salary"
+    },
+    {
+      name: "changeDepartment",
+      type: "input",
+      message: "Change employee department"
     })
     .then(function(answer) {
-      console.log(answer.addRo);
-       connection.query("INSERT INTO employee_trackerdb.role (title, salary, department_id) VALUES (?)", {addRo:answer.addRo}, function(err, res) {
+      console.log(answer.updateRole);
+       connection.query("UPDATE employee_trackerdb.role SET () WHERE (?)",
+        {updateRole:answer.updateRole},
+         function(err, res) {
         if(err) throw err;
         console.table(res);
         trackEmployees();
       });
     });
 }
-
-//  Need  to join the tables and update the roles wasn't sure how to accomplish this. 
-
-// function updateEmployee() {
-//   inquirer
-//     .prompt({
-//       name: "updateRole",
-//       type: "input",
-//       // message: " unsure"
-//     })
-//     .then(function(answer) {
-//       console.log(answer.updateRole);
-//       //  connection.query("UPDATE employee_trackerdb.role SET () WHERE (?)", {updateRole:answer.updateRole}, function(err, res) {
-//         if(err) throw err;
-//         console.table(res);
-//         trackEmployees();
-//       });
-//     });
-// }
