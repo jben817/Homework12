@@ -29,7 +29,6 @@ function trackEmployees() {
         "Add Role",
         "Add Employee",
         "Update Employee Role",
-        "Exit"
       ]
     })
     .then(function (answer) {
@@ -191,18 +190,21 @@ function addRole() {
 }
 
 
-function updateEmployee() {
-  inquirer
-    .prompt({
-      name: "updateRole",
-      type: "input",
-      // message: " unsure"
-    })
-    .then(function (answer) {
-      console.log(answer.updateRole);
-      //  connection.query("UPDATE employee_trackerdb.role SET () WHERE (?)", {updateRole:answer.updateRole}, function(err, res) {
-      if (err) throw err;
-      console.table(res);
-      trackEmployees();
-    });
-}
+// function updateEmployee() {
+//   inquirer
+//     .prompt([{
+//       name: "updateRole",
+//       type: "input",
+//       message: "Update Employee Role"
+//     }
+
+//   ])
+//     .then(function (answer) {
+//              connection.query("UPDATE employee_trackerdb.role SET ?, 
+//        {title:answer.updateRole}, 
+//       function(err, res) {
+//       if (err) throw err;
+//       console.table(res);
+//       trackEmployees();
+//     });
+// }
