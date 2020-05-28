@@ -2,7 +2,7 @@ CREATE DATABASE employee_trackerDB;
 USE employee_trackerDB;
 
 CREATE TABLE department (
-    id INT NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR (30),
     PRIMARY KEY (id)
 );
@@ -24,27 +24,27 @@ CREATE TABLE role (
     PRIMARY KEY (id)
 );
 
-INSERT INTO department (id, name)
-VALUES (10, "Nursing");
-INSERT INTO department (id, name)
-VALUES (50, "Human Resources");
-INSERT INTO department (id, name)
-VALUES (40, "Patient Care Rep");
-INSERT INTO department (id, name)
-VALUES (20, "Physician");
-INSERT INTO department (id, name)
-VALUES (30, "Social Work");
+INSERT INTO department (name)
+VALUES ("Nursing");
+INSERT INTO department (name)
+VALUES ("Human Resources");
+INSERT INTO department (name)
+VALUES ("Patient Care Rep");
+INSERT INTO department (name)
+VALUES ("Physician");
+INSERT INTO department (name)
+VALUES ("Social Work");
 
 INSERT INTO role (id, title, salary, department_id)
-VALUES (404, "Nurse", 80000, 10);
-INSERT INTO role (title, salary, department_id)
-VALUES (202, "Doctor", 300000, 20);
-INSERT INTO role (title, salary, department_id)
-VALUES (303, "Social Worker", 55000, 30);
-INSERT INTO role (title, salary, department_id)
-VALUES (404, "Patient Care Rep", 36000, 40);
-INSERT INTO role (title, salary, department_id)
-VALUES (505, "Human Resource Associate", 40000, 50);
+VALUES (101, "Nurse", 80000, 1);
+INSERT INTO role (id, title, salary, department_id)
+VALUES (404, "Doctor", 300000, 4);
+INSERT INTO role (id, title, salary, department_id)
+VALUES (505,"Social Worker", 55000, 5);
+INSERT INTO role (id, title, salary, department_id)
+VALUES (303, "Patient Care Rep", 36000, 3);
+INSERT INTO role (id, title, salary, department_id)
+VALUES (202, "Human Resource Associate", 40000, 2);
 
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)

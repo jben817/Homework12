@@ -93,50 +93,60 @@ function viewRoles() {
 
 function addDepartment() {
   inquirer
-    .prompt({
+    .prompt([{
+      name: "addDepartID",
+      type: "input",
+      message: "Please add ID"
+    },
+    {
       name: "addDepart",
       type: "input",
-      message: "Please add Department"
-    })
+      message: "Please add Department id"
+    }])
     .then(function (answer) {
       console.log(answer.addDepart);
-      connection.query("INSERT INTO employee_trackerdb.department (name) VALUES (?)", answer.addDepart, function (err, res) {
-        if (err) throw err;
-        console.table(res);
-        trackEmployees();
-      });
+      connection.query("INSERT INTO employee_trackerdb.department SET ?",
+        {
+          id: answer.addDepartID,
+          name: answer.addDepart
+        },
+        function (err, res) {
+          if (err) throw err;
+          console.table(res);
+          trackEmployees();
+        });
     });
 }
 
 function addEmployee() {
   inquirer
-    .prompt({
+    .prompt([{
       name: "addFirst",
       type: "input",
-      message: "Please add Employee first_name"
+      message: "Please add first_name."
     },
-      {
-        name: "addLast",
-        type: "input",
-        message: "Please add Employee last_name"
-      },
-      {
-        name: "addRoleId",
-        type: "input",
-        message: "Please add Employee role_id"
-      },
-      {
-        name: "addManager",
-        type: "input",
-        message: "Please add Employee manager_id"
-      })
+    {
+      name: "addLast",
+      type: "input",
+      message: "Please add last_name."
+    },
+    {
+      name: "addRoleId",
+      type: "input",
+      message: "Please add role_id"
+    },
+    {
+      name: "addManager",
+      type: "input",
+      message: "Please add manager_id"
+    }])
     .then(function (answer) {
-      connection.query("INSERT INTO employee SET (?)",
+      connection.query("INSERT INTO employee SET ?",
         {
           first_name: answer.addFirst,
           last_name: answer.addLast,
           role_id: answer.addRoleId,
-          manager_id: answeer.addManager
+          manager_id: answer.addManager
         },
         function (err, res) {
           if (err) throw err;
@@ -147,27 +157,30 @@ function addEmployee() {
 }
 function addRole() {
   inquirer
-    .prompt({
-      name: "addTitle",
-      type: "input",
-      message: "Please add title"
-    },
+    .prompt([
+      {
+        name: "addTitle",
+        type: "input",
+        message: "Please add title",
+      },
       {
         name: "addSalary",
         type: "input",
-        message: "Please add salary"
+        message: "Please add salary",
       },
       {
-        name: "addDepartmentId",
+        name: "addDepartment",
         type: "input",
         message: "Please add department_id"
-      })
+      },
+    ])
     .then(function (answer) {
-      connection.query("INSERT INTO employee_trackerdb.role SET (?)",
+      console.log(answer.addRo);
+      connection.query("INSERT INTO employee_trackerdb.role SET ?",
         {
           title: answer.addTitle,
           salary: answer.addSalary,
-          department_id: answer.addDepartmentId
+          department_id: answer.addDepartment
         },
         function (err, res) {
           if (err) throw err;
@@ -177,31 +190,19 @@ function addRole() {
     });
 }
 
+
 function updateEmployee() {
   inquirer
     .prompt({
-      name: "changeTitle",
+      name: "updateRole",
       type: "input",
-      message: "change employee salary"
-    },
-    {
-      name: "changeSalary",
-      type: "input",
-      message: "change employee salary"
-    },
-    {
-      name: "changeDepartment",
-      type: "input",
-      message: "Change employee department"
+      // message: " unsure"
     })
-    .then(function(answer) {
+    .then(function (answer) {
       console.log(answer.updateRole);
-       connection.query("UPDATE employee_trackerdb.role SET () WHERE (?)",
-        {updateRole:answer.updateRole},
-         function(err, res) {
-        if(err) throw err;
-        console.table(res);
-        trackEmployees();
-      });
+      //  connection.query("UPDATE employee_trackerdb.role SET () WHERE (?)", {updateRole:answer.updateRole}, function(err, res) {
+      if (err) throw err;
+      console.table(res);
+      trackEmployees();
     });
 }
